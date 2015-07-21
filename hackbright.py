@@ -20,8 +20,11 @@ def get_student_by_github(github):
         """
     db_cursor.execute(QUERY, (github,))
     row = db_cursor.fetchone()
-    print "Student: %s %s\nGithub account: %s" % (
-        row[0], row[1], row[2])
+    if row == None:
+        print "Student github is not in database."
+    else:
+        print "Student: %s %s\nGithub account: %s" % (
+            row[0], row[1], row[2])
 
 
 def make_new_student(first_name, last_name, github):
@@ -47,8 +50,11 @@ def get_project_by_title(title):
         """
     db_cursor.execute(QUERY, (title,))
     row = db_cursor.fetchone()
-    print "Project Title: %s \nDescription: %s \nMax Grade: %d" % (
-        row[0], row[1], row[2])
+    if row == None:
+        print "Project is not in database."
+    else:
+        print "Project Title: %s \nDescription: %s \nMax Grade: %d" % (
+            row[0], row[1], row[2])
 
 def get_grade_by_github_title(github, title):
     """Print grade student received for a project."""
@@ -57,9 +63,12 @@ def get_grade_by_github_title(github, title):
             FROM Grades
             WHERE student_github = ? AND project_title = ?
             """
-    db_cursor.execute(QUERY, (github,title))
+    db_cursor.execute(QUERY, (github, title))
     row = db_cursor.fetchone()
-    print "The student with github name %s got %d on the %s project." % (github, row[0], title)
+    if row == None:
+        print "Student github and project title combination is not in database."
+    else:
+        print "The student with github name %s got %d on the %s project." % (github, row[0], title)
 
 
 
@@ -88,6 +97,8 @@ def handle_input():
     while command != "quit":
         input_string = raw_input("HBA Database> ")
         tokens = input_string.split()
+        if len(tokens) == 0:
+            tokens = ['','','']
         command = tokens[0]
         args = tokens[1:]
 
@@ -111,6 +122,15 @@ def handle_input():
         elif command == "add_grade":
             github, title, grade = args 
             assign_grade(github, title, grade)
+
+        else:
+            print """Invalid command. Try one of these commands:
+            student <github>
+            project_info <project_title>
+            new_student <firstname> <lastname> <github>
+            grade_info <github> <project_title>
+            add_grade <github> <project_title> <grade> 
+            """
 
 
 if __name__ == "__main__":
