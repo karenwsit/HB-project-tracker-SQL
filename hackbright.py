@@ -98,30 +98,45 @@ def handle_input():
         input_string = raw_input("HBA Database> ")
         tokens = input_string.split()
         if len(tokens) == 0:
-            tokens = ['','','']
+            tokens = ['','']
         command = tokens[0]
         args = tokens[1:]
 
         if command == "student":
-            github = args[0]
-            get_student_by_github(github)
+            if len(args) != 1:
+                print "Enter the correct number of arguments"
+            else:
+                github = args[0]
+                get_student_by_github(github)
 
         elif command == "project_info":
-            title = args[0]
-            get_project_by_title(title)
+            if len(args) != 1:
+                print "Enter the correct number of arguments"
+            else:
+                title = args[0]
+                get_project_by_title(title)
 
         elif command == "new_student":
-            first_name, last_name, github = args   # unpack!
-            make_new_student(first_name, last_name, github)
+            if len(args) != 3:
+                print "Enter the correct number of arguments"
+            else:
+                first_name, last_name, github = args   # unpack!
+                make_new_student(first_name, last_name, github)
 
         elif command == "grade_info":
-            github = args[0]
-            title = args[1]
-            get_grade_by_github_title(github, title)
+            if len(args) != 2:
+                print "Enter the correct number of arguments"
+            else:
+                github = args[0]
+                title = args[1]
+                get_grade_by_github_title(github, title)
 
         elif command == "add_grade":
-            github, title, grade = args 
-            assign_grade(github, title, grade)
+            if len(args) != 3:
+                print "Enter the correct number of arguments"
+            else:
+                github, title, grade = args 
+                assign_grade(github, title, grade)
 
         else:
             print """Invalid command. Try one of these commands:
